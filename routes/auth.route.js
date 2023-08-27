@@ -8,6 +8,7 @@ import {
   logout,
 } from "../controllers/auth.controller.js";
 import { validatorExpress } from "../middlewares/validatorExpress.js";
+import { requireToken } from "../middlewares/requireToken.js";
 
 const router = Router();
 
@@ -38,5 +39,6 @@ router.post(
 // router.get("/protected", validateToken, infoUser);
 router.get("/refresh", refreshToken);
 router.get("/logout", logout);
+router.post("/protected", requireToken, infoUser);
 
 export default router;

@@ -1,4 +1,6 @@
 import { User } from "../models/User.js";
+import jwt from "jsonwebtoken";
+import { generateToken } from "../utils/generateToken.js";
 
 export const register = async (req, res) => {
   const { email, password } = req.body;
@@ -40,7 +42,10 @@ export const login = async (req, res) => {
       return res.status(403).json({ error: `Credenciales incorrectas` });
     }
 
-    return res.json({ ok: "login ok" });
+    // generar token jwt
+    // var token = jwt.sign({ uid: user.id }, process.env.JWT_SECRET);
+    const { token, expiresIn } = generateToken(user.id);
+    return res.json({ ok: "login ok", token, expiresIn });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Error de servidor" });
@@ -48,7 +53,13 @@ export const login = async (req, res) => {
 };
 
 export const infoUser = async (req, res) => {
-  res.json({ controller: "infoUser" });
+  try {
+    const user = await User.findById(req.uid).lean();
+    const { _id, email } = user;
+    return res.json({ _id, email });
+  } catch (error) {
+    return res.status(500).json({ error: "error de server" });
+  }
 };
 
 export const refreshToken = (req, res) => {
