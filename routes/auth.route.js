@@ -39,6 +39,6 @@ router.post(
 // router.get("/protected", validateToken, infoUser);
 router.get("/refresh", refreshToken);
 router.get("/logout", logout);
-router.post("/protected", requireToken, infoUser);
+router.get("/protected", requireToken, infoUser);
 
 export default router;

@@ -24,3 +24,6 @@ export const requireToken = (req, res, next) => {
     // return res.status(401).json({ error: error.message });
   }
 };
+
+// https://www.youtube.com/watch?v=VrLvbzHVT9A
+// 3:59
